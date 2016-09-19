@@ -1,4 +1,3 @@
----
 - name: Configure webserver with nginx
   hosts: webservers
   sudo: True
