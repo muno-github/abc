@@ -27,6 +27,13 @@ Playbookの実行
 $ ansible-playbook web-notls.yml
 ```
 
+## Ansibleのモジュールドキュメント確認
+
+```sh
+$ ansible-doc file
+$ ansible-doc service
+```
+
 ## 参考
 
 http://docs.ansible.com/
