@@ -1,17 +1,25 @@
+# 実行するplayの内容（任意でよい）
 - name: Configure webserver with nginx
+  # 設定するホストの集合
   hosts: webservers
-  sudo: True
+  # sudoでタスクを実行するか
+  become: True
+  # ホストで実行するタスク
   tasks:
     - name: install nginx
       apt: name=nginx update_cache=yes
+
     - name: copy nginx config file
       copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+
     - name: enable configuration
       file: >
         dest=/etc/nginx/sites-enabled/default
         src=/etc/nginx/sites-available/default
         state=link
+
     - name: copy index.html
       template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
+
     - name: restart nginx
       service: name=nginx state=restarted
