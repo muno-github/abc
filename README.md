@@ -9,5 +9,5 @@ $ ssh vagrant@127.0.0.1 -p 2222 -i ./.vagrant/machines/default/virtualbox/privat
 ## 疎通確認
 
 ```sh
-$ ansible testserver -i hosts -m ping
+$ ansible testserver -m ping
 ```
