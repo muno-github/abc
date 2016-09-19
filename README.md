@@ -16,3 +16,6 @@ $ ansible testserver -m ping
 
 準備: 80番と443番ポートが開いている必要がある。
 
+## 参考
+
+https://github.com/lorin/ansiblebook
