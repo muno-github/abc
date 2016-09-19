@@ -10,12 +10,14 @@
       apt: name=nginx update_cache=yes
 
     - name: copy nginx config file
+      # ローカルマシンからホストにコピー
       copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
 
     - name: enable configuration
+      # state=link: シムリンク
       file: >
-        dest=/etc/nginx/sites-enabled/default
         src=/etc/nginx/sites-available/default
+        dest=/etc/nginx/sites-enabled/default
         state=link
 
     - name: copy index.html
