@@ -29,4 +29,7 @@ $ ansible-playbook web-notls.yml
 
 ## 参考
 
+http://docs.ansible.com/
+http://docs.ansible.com/ansible/modules_by_category.html
 https://github.com/lorin/ansiblebook
+https://github.com/lorin/ansible-quickref
