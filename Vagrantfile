@@ -14,6 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # ボックスのアップデートチェック
   config.vm.box_check_update = false
   # ポートフォワード
-  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 80,  host: 8080
+  config.vm.network "forwarded_port", guest: 443, host: 8443
   config.vm.network "private_network", ip: "192.168.33.10"
 end
