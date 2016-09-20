@@ -23,5 +23,6 @@
     - name: copy index.html
       template: src=templates/index.html.j2 dest=/usr/share/nginx/html/index.html mode=0644
 
+  handlers:
     - name: restart nginx
       service: name=nginx state=restarted
