@@ -18,6 +18,11 @@ webserversグループ
 $ ansible webservers -m ping
 ```
 
+すべてのホスト
+```sh
+ansible all -a 'date'
+```
+
 ## playbook
 
 準備: 80番と443番ポートが開いている必要がある。
