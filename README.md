@@ -5,6 +5,17 @@
 手動でインフラを構築する手間を省ける。  
 開発者とインフラチームで設定を共有できる。(DevOps)  
 
+## 専門用語
+
+### Playbook
+
+ymlで書かれたインフラ構築手順。  
+
+Playbookの実行  
+```sh
+$ ansible-playbook web.yml
+```
+
 ## SSHコマンド
 
 ```
