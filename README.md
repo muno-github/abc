@@ -45,3 +45,4 @@ http://docs.ansible.com/
 http://docs.ansible.com/ansible/modules_by_category.html  
 https://github.com/lorin/ansiblebook  
 https://github.com/lorin/ansible-quickref  
+https://gist.github.com/hamuhamu/ab37c70f579392f469a6f5576516801f  
