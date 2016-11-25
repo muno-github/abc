@@ -16,6 +16,9 @@ Playbookの実行
 $ ansible-playbook web.yml
 ```
 
+Playbookは、何度実行しても結果が同じである。  
+つまり、冪等性を持っている。  
+
 ## SSHコマンド
 
 ```
