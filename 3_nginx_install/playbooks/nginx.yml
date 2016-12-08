@@ -35,6 +35,9 @@
     - name: copy index.html
       template: src=templates/index.html dest=/usr/share/nginx/html/index.html mode=0644
 
+    - name: stop firewalld
+      shell: systemctl stop firewalld
+
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
