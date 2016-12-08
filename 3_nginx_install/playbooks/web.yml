@@ -1,0 +1,40 @@
+# 実行するplayの内容（任意でよい）
+- name: Configure webserver with nginx
+  # 設定するホストの集合
+  hosts: webservers
+  # sudoでタスクを実行するか
+  become: True
+  # ホストで実行するタスク
+  tasks:
+
+    - name: copy nginx repo file
+      # ローカルマシンからホストにコピー
+      copy: src=files/nginx.repo dest=/etc/yum.repos.d/nginx.repo
+
+    - name: install nginx
+      yum: name=nginx enablerepo=nginx update_cache=yes
+
+
+    - name: mkdir /etc/nginx/sites-available
+      file: path=/etc/nginx/sites-available state=directory owner=root group=root mode=0755
+
+    - name: mkdir /etc/nginx/sites-enabled
+      file: path=/etc/nginx/sites-enabled state=directory owner=root group=root mode=0755
+
+    - name: copy nginx config file
+      # ローカルマシンからホストにコピー
+      copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+
+    - name: enable configuration
+      # state=link: シムリンク
+      file: >
+        src=/etc/nginx/sites-available/default
+        dest=/etc/nginx/sites-enabled/default
+        state=link
+
+    - name: copy index.html
+      template: src=templates/index.html dest=/usr/share/nginx/html/index.html mode=0644
+
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
