@@ -4,16 +4,17 @@
   hosts: webservers
   # sudoでタスクを実行するか
   become: True
+  vars:
+    nginx_repo: /etc/yum.repos.d/nginx.repo
   # ホストで実行するタスク
   tasks:
 
     - name: copy nginx repo file
       # ローカルマシンからホストにコピー
-      copy: src=files/nginx.repo dest=/etc/yum.repos.d/nginx.repo
+      copy: src=files/nginx.repo dest={{ nginx_repo }}
 
     - name: install nginx
       yum: name=nginx enablerepo=nginx update_cache=yes
-
 
     - name: mkdir /etc/nginx/sites-available
       file: path=/etc/nginx/sites-available state=directory owner=root group=root mode=0755
