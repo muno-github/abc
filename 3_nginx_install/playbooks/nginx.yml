@@ -6,6 +6,7 @@
   become: True
   vars:
     nginx_repo: /etc/yum.repos.d/nginx.repo
+    server_name: localhost
   # ホストで実行するタスク
   tasks:
 
@@ -24,7 +25,8 @@
 
     - name: copy nginx config file
       # ローカルマシンからホストにコピー
-      copy: src=files/nginx.conf dest=/etc/nginx/sites-available/default
+      copy: src=templates/nginx.conf dest=/etc/nginx/sites-available/default
+      notify: restart nginx
 
     - name: enable configuration
       # state=link: シムリンク
@@ -32,12 +34,17 @@
         src=/etc/nginx/sites-available/default
         dest=/etc/nginx/sites-enabled/default
         state=link
+      notify: restart nginx
 
     - name: copy index.html
       template: src=templates/index.html dest=/usr/share/nginx/html/index.html mode=0644
 
     - name: disable firewalld
       shell: systemctl disable firewalld
+
+  # ハンドラを使わない場合は、末尾で再起動を行う
+  #  - name: restart nginx
+  # service: name=nginx state=restarted
 
   handlers:
     - name: restart nginx
