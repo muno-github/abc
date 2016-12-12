@@ -22,7 +22,7 @@ vagrant2 | SUCCESS => {
 グループを指定してping  
 
 ```
-ansible vagrant -m "ping"
+$ ansible vagrant -m "ping"
 vagrant3 | SUCCESS => {
     "changed": false,
     "ping": "pong"
