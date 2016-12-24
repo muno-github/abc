@@ -1,0 +1,63 @@
+# MySQL 5.7 を CentOS 7 に yum インストールする手順
+# @see http://weblabo.oscasierra.net/installing-mysql57-centos7-yum/
+- name: Configure Database with MySQL
+  # 設定するホストの集合
+  hosts: db
+  # sudoでタスクを実行するか
+  become: True
+  vars:
+    mysql_rpm: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+  # ホストで実行するタスク
+  tasks:
+
+    # MariaDBが競合するかもしれないので、削除しておく
+  - name: remove mariadb-libs
+    yum: name=mariadb-libs state=absent
+
+  - name: MySQLのrpmをyumでinstall
+    yum: name={{ mysql_rpm }}
+
+  - name: install MySQL
+    yum: name=mysql-community-server
+
+  - name: enabled mysql
+    shell: systemctl enable mysqld.service
+
+  - name: disable firewalld
+    shell: systemctl disable firewalld
+
+  - name: restart MySQL
+    service: name=mysqld state=restarted
+
+  # MySQL-pythonがないとAnsibleからMySQLコマンドが実行できない
+  - name: install MySQL-python
+    yum: name=MySQL-python
+
+    #   # set password for root@localhost=password('passwordPASSWORD@999');
+    # - name: copy .my.cnf
+    #   template: src=files/my.cnf dest=/root/.my.cnf owner=root mode=0600
+
+    #   #    - name: root アカウントのパスワードを設定
+    #   #      mysql_user:
+    #   #        name: root
+    #   #        host: localhost
+    #   #        password: passwordPASSWORD@999
+
+
+    # - name: check max_connections
+    #   mysql_variables:
+    #     variable=max_connections
+    #     login_user=root
+    #     login_password=passwordPASSWORD@999
+
+    # - name: ユーザ設定
+    #   mysql_db:
+    #     name: all
+    #     login_user: root
+    #     state: present
+    #     login_password: passwordPASSWORD@999
+
+    # - name: データベース wordpress を作成
+    #   mysql_db:
+    #     name: wordpress
+    #     state: present
