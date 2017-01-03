@@ -1,38 +1,31 @@
+# @see http://dqn.sakusakutto.jp/2016/01/ansible-mysql57-setup.html
 - name: MySQLのユーザを作る
   # 設定するホストの集合
   hosts: db
   # sudoでタスクを実行するか
   become: True
   vars:
-    mysql_rpm: http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+    mysql_user: hoge
+    mysql_password: 8Mv9TGtN$
+    mysql_database: mysql
   # ホストで実行するタスク
   tasks:
 
-    #   # set password for root@localhost=password('passwordPASSWORD@999');
-    # - name: copy .my.cnf
-    #   template: src=files/my.cnf dest=/root/.my.cnf owner=root mode=0600
+  - name: copy mysql config file
+    copy: src=files/my.cnf dest=/etc/my.cnf
 
-    #   #    - name: root アカウントのパスワードを設定
-    #   #      mysql_user:
-    #   #        name: root
-    #   #        host: localhost
-    #   #        password: passwordPASSWORD@999
+  - name: restart MySQL
+    service: name=mysqld state=restarted
 
+  - name: rootの一時パスワードを取り出し
+    script: save-mysql-tmp-password.sh creates=/root/.tmp.my.cnf
 
-    # - name: check max_connections
-    #   mysql_variables:
-    #     variable=max_connections
-    #     login_user=root
-    #     login_password=passwordPASSWORD@999
+  - name: rootのパスワードを変更
+    script: change-root-password.sh creates=/root/.my.cnf
 
-    # - name: ユーザ設定
-    #   mysql_db:
-    #     name: all
-    #     login_user: root
-    #     state: present
-    #     login_password: passwordPASSWORD@999
+  - name: create mysql hoge user
+    mysql_user: name=hoge host={{ item }} password={{ mysql_password }} priv={{ mysql_database }}.*:ALL state=present
+    with_items:
+      - localhost
+      - 127.0.0.1
 
-    # - name: データベース wordpress を作成
-    #   mysql_db:
-    #     name: wordpress
-    #     state: present
