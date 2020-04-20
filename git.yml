@@ -1,4 +1,3 @@
     - hosts: all
       tasks:
-        - git: repo=https://github.com/hamuhamu/ansible-sample.git dest=/home/pi/test_git
-        test
+        - git: repo=https://github.com/muno-github/abc.git dest=/home/pi/test_git
